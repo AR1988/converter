@@ -24,8 +24,8 @@ public abstract class Converter<T> {
     }
 
 
-    abstract T convert(String value,
-                       String columnName,
-                       List<String> errors,
-                       boolean isRequired);
+    public abstract T convert(String value,
+                              String columnName,
+                              List<String> errors,
+                              boolean isRequired);
 }
