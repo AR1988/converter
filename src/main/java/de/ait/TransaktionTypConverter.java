@@ -1,7 +1,7 @@
 package de.ait;
 
-import de.ait.models.OperationTyp;
 import de.ait.models.TransaktionCode;
+import de.ait.models.TransaktionTyp;
 
 import java.util.Arrays;
 import java.util.List;
@@ -11,19 +11,19 @@ import java.util.stream.Collectors;
  * @author Andrej Reutow
  * created on 17.06.2023
  */
-public class TransaktionCodeConverter extends Converter<TransaktionCode> {
+public class TransaktionTypConverter extends Converter<TransaktionTyp> {
 
-    private static final String ERROR_MSG_NOT_FOUND = "Колонка '%s', значение '%s' код операции не найден. Доступные типы по ключам [%s]";
+    private static final String ERROR_MSG_NOT_FOUND = "Колонка '%s', значение '%s' тип транзакции не найден. Доступные типы по ключам [%s]";
 
 
     @Override
-    public TransaktionCode convert(String value, //"1 - 3"
+    public TransaktionTyp convert(String value, //"1 - 3"
                                    String columnName,
                                    List<String> errors,
                                    boolean isRequired) {
 
         Converter<Integer> intConverter = new IntConverter();
-        Integer transaktionCodeKey = intConverter.convert(
+        Integer transaktionTypeKey = intConverter.convert(
                 value,
                 columnName,
                 errors,
@@ -36,20 +36,20 @@ public class TransaktionCodeConverter extends Converter<TransaktionCode> {
         //isRequired = false, value = "ABC" -> Integer result = null, errors.size() == 1
         //isRequired = true, value = "ABC"  -> Integer result = null, errors.size() == 1
 
-        if (transaktionCodeKey == null) {
+        if (transaktionTypeKey == null) {
             return null;
         }
 
-        TransaktionCode transaktionCode = null;
+        TransaktionTyp transaktionTyp = null;
 
-        for (TransaktionCode typ : TransaktionCode.values()) {
-            if (typ.getKey() == transaktionCodeKey) {
-                transaktionCode = typ;
+        for (TransaktionTyp typ : TransaktionTyp.values()) {
+            if (typ.getKey() == transaktionTypeKey) {
+                transaktionTyp = typ;
             }
         }
 
-        if (transaktionCode == null) {
-            String availableIds = Arrays.stream(TransaktionCode.values())
+        if (transaktionTyp == null) {
+            String availableIds = Arrays.stream(TransaktionTyp.values())
                     .map(x -> x.getKey())
                     .map(x -> String.valueOf(x))
                     .collect(Collectors.joining(", "));
@@ -58,6 +58,6 @@ public class TransaktionCodeConverter extends Converter<TransaktionCode> {
             errors.add(msg);
         }
 
-        return transaktionCode;
+        return transaktionTyp;
     }
 }
